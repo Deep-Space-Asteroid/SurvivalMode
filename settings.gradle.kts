@@ -1,1 +1,1 @@
-rootProject.name = "CosmicModExample"
+rootProject.name = "SurvivalMode"

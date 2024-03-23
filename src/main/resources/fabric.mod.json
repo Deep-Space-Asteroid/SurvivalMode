@@ -10,14 +10,18 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.example.examplemod.ExampleMod"
+      "cc.badideas.survivalmode.SurvivalMode"
+    ],
+    "modmenu": [
+      "cc.badideas.survivalmode.SurvivalModeConfig"
     ]
   },
   "mixins": [
-    "examplemod.mixins.json"
+    "survivalmode.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
-    "cosmic_reach": ">=${cosmic_reach_version}"
+    "cosmic_reach": ">=${cosmic_reach_version}",
+    "lunar-api": ">=0.2.2"
   }
 }
