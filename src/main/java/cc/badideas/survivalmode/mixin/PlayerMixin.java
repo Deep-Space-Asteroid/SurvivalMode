@@ -24,7 +24,7 @@ public abstract class PlayerMixin implements SurvivalModePlayer {
     private double oxygen;
 
     @Unique
-    private double maxOxygen = 25.0;
+    private double maxOxygen = 10.0;
 
     @Unique
     private double oxygenLossRate = 1.0;
@@ -40,7 +40,7 @@ public abstract class PlayerMixin implements SurvivalModePlayer {
     private void survivalModeTick(World world, double deltaTime, CallbackInfo info) {
         if (isDead) {
             controlledEntity.viewPositionOffset.set(0, deathOffset, 0);
-            deathOffset = Math.max(0, deathOffset - (float) (0.5 * deltaTime));
+            deathOffset = Math.max(0.2F, deathOffset - (float) (0.5 * deltaTime));
 
             if (!(GameState.currentGameState instanceof DeathScreen)) {
                 boolean cursorCaught = Gdx.input.isCursorCatched();
