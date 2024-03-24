@@ -4,7 +4,7 @@ object Properties {
     const val MOD_VERSION = "0.0.1"
     const val MOD_NAME = "Survival Mode"
     const val MODID = "survivalmode"
-    const val MAVEN_GROUP = "com.example.examplemod"
+    const val MAVEN_GROUP = "cc.badideas.survivalmode"
     const val COSMIC_REACH_VERSION = "0.1.11"
     const val LOADER_VERSION = "0.15.7"
 }
@@ -57,7 +57,6 @@ dependencies {
 dependencies {
     // shadow == NO EMBED
     // implementation == EMBED
-    shadow(files("$projectDir/run/mods/Lunar.API-0.2.2.jar"))
 }
 
 base.archivesName = modJarName
