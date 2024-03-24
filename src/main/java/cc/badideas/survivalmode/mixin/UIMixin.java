@@ -65,7 +65,8 @@ public class UIMixin {
             batch.setProjectionMatrix(uiCamera.combined);
             batch.begin();
             FontRenderer.fontTexture.bind(0);
-            // TODO: Render text
+            batch.setColor(0, 0, 0, 1);
+            FontRenderer.drawText(batch, uiViewport, String.format("%.1f/%.1f", curOxygen, maxOxygen), -screenXOffset, screenYOffset - oxygenBarHeight);
             batch.end();
         }
     }
