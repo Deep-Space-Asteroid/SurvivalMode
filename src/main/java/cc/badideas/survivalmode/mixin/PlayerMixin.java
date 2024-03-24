@@ -31,6 +31,8 @@ public abstract class PlayerMixin implements SurvivalModePlayer {
 
     @Unique
     private float deathOffsetStart = 1.8F;
+
+    @Unique
     private float deathOffset;
 
     @Unique
