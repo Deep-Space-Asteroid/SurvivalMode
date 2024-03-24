@@ -7,4 +7,5 @@ public interface SurvivalModePlayer {
     public double getOxygen();
     public double getMaxOxygen();
     public boolean isDead();
+    public boolean isCreative();
 }

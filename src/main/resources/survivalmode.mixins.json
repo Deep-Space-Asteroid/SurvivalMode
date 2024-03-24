@@ -4,6 +4,8 @@
   "package": "cc.badideas.survivalmode.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "BlockSelectionMixin",
+    "HotbarMixin",
     "PlayerMixin",
     "UIMixin",
     "UIAccessor",

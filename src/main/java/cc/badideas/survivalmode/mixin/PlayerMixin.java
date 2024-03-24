@@ -4,7 +4,6 @@ import cc.badideas.survivalmode.api.SurvivalModePlayer;
 import cc.badideas.survivalmode.gamestates.DeathScreen;
 import com.badlogic.gdx.Gdx;
 import finalforeach.cosmicreach.gamestates.GameState;
-import finalforeach.cosmicreach.gamestates.PauseMenu;
 import finalforeach.cosmicreach.world.World;
 import finalforeach.cosmicreach.world.entities.Entity;
 import finalforeach.cosmicreach.world.entities.Player;
@@ -24,7 +23,7 @@ public abstract class PlayerMixin implements SurvivalModePlayer {
     private double oxygen;
 
     @Unique
-    private double maxOxygen = 10.0;
+    private double maxOxygen = 100.0;
 
     @Unique
     private double oxygenLossRate = 1.0;
@@ -38,6 +37,9 @@ public abstract class PlayerMixin implements SurvivalModePlayer {
     @Unique
     private boolean isDead = false;
 
+    @Unique
+    private boolean creative = false;
+
     @Inject(method = "update", at = @At("HEAD"), cancellable = true)
     private void survivalModeTick(World world, double deltaTime, CallbackInfo info) {
         if (isDead) {
@@ -50,6 +52,11 @@ public abstract class PlayerMixin implements SurvivalModePlayer {
                 GameState.switchToGameState(new DeathScreen(cursorCaught));
             }
 
+            info.cancel();
+            return;
+        }
+
+        if (creative) {
             info.cancel();
             return;
         }
@@ -87,5 +94,18 @@ public abstract class PlayerMixin implements SurvivalModePlayer {
 
     public boolean isDead() {
         return isDead;
+    }
+
+    public void setCreative() {
+        this.creative = true;
+    }
+
+    public void setSurvival() {
+        this.creative = false;
+    }
+
+    @Override
+    public boolean isCreative() {
+        return creative;
     }
 }

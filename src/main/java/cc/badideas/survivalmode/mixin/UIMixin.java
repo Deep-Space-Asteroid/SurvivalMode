@@ -1,8 +1,7 @@
 package cc.badideas.survivalmode.mixin;
 
 import cc.badideas.survivalmode.api.SurvivalModePlayer;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
+import cc.badideas.survivalmode.util.DrawUtil;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -35,11 +34,7 @@ public class UIMixin {
     @Inject(method = "render", at = @At("HEAD"))
     private void renderOxygen(CallbackInfo ci) {
         if (UI.renderUI) {
-            Gdx.gl.glClear(256);
-            Gdx.gl.glEnable(3042);
-            Gdx.gl.glDepthFunc(519);
-            Gdx.gl.glBlendFunc(770, 771);
-            Gdx.gl.glCullFace(1028);
+            DrawUtil.switchToDrawingShapes();
             uiViewport.apply(false);
 
             float screenW = uiViewport.getWorldWidth();
@@ -63,13 +58,7 @@ public class UIMixin {
 
             shapeRenderer.end();
 
-            Gdx.gl.glClear(256);
-            Gdx.gl.glEnable(2929);
-            Gdx.gl.glDepthFunc(513);
-            Gdx.gl.glEnable(2884);
-            Gdx.gl.glCullFace(1029);
-            Gdx.gl.glEnable(3042);
-            Gdx.gl.glBlendFunc(770, 771);
+            DrawUtil.switchToDrawingText();
             uiViewport.apply(false);
 
             batch.setProjectionMatrix(uiCamera.combined);
