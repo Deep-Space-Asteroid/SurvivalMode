@@ -6,4 +6,5 @@ public interface SurvivalModePlayer {
     public void respawn(World world);
     public double getOxygen();
     public double getMaxOxygen();
+    public boolean isDead();
 }

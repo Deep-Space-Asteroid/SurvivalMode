@@ -41,8 +41,10 @@ public class UIMixin {
             Gdx.gl.glCullFace(1028);
             uiViewport.apply(false);
 
-            int screenXOffset = Math.round(uiViewport.getWorldWidth() / 2);
-            int screenYOffset = Math.round(uiViewport.getWorldHeight() / 2);
+            float screenW = uiViewport.getWorldWidth();
+            float screenH = uiViewport.getWorldHeight();
+            int screenXOffset = Math.round(screenW / 2);
+            int screenYOffset = Math.round(screenH / 2);
             double curOxygen = ((SurvivalModePlayer) InGame.getLocalPlayer()).getOxygen();
             double maxOxygen = ((SurvivalModePlayer)InGame.getLocalPlayer()).getMaxOxygen();
             double innerBarWidth = curOxygen / maxOxygen * (oxygenBarMaxWidth - oxygenBarPadding * 2);
@@ -51,6 +53,12 @@ public class UIMixin {
             shapeRenderer.setColor(1.0F, 1.0F, 1.0F, 0.5F);
             shapeRenderer.rect(-screenXOffset, screenYOffset - oxygenBarHeight, oxygenBarMaxWidth, oxygenBarHeight);
             shapeRenderer.rect(-screenXOffset + oxygenBarPadding, screenYOffset - oxygenBarHeight + oxygenBarPadding, Math.round(innerBarWidth), oxygenBarHeight - oxygenBarPadding * 2);
+
+            if (((SurvivalModePlayer) InGame.getLocalPlayer()).isDead()) {
+                shapeRenderer.setColor(1.0F, 0.0F, 0.0F, 0.5F);
+                shapeRenderer.rect(-screenXOffset, -screenYOffset, screenW, screenH);
+            }
+
             shapeRenderer.end();
 
             Gdx.gl.glClear(256);
