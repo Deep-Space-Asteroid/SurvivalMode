@@ -11,9 +11,6 @@
   "entrypoints": {
     "main": [
       "cc.badideas.survivalmode.SurvivalMode"
-    ],
-    "modmenu": [
-      "cc.badideas.survivalmode.SurvivalModeConfig"
     ]
   },
   "mixins": [
@@ -21,7 +18,6 @@
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
-    "cosmic_reach": ">=${cosmic_reach_version}",
-    "lunar-api": ">=0.2.2"
+    "cosmic_reach": ">=${cosmic_reach_version}"
   }
 }
