@@ -5,7 +5,7 @@ object Properties {
     const val MOD_NAME = "Survival Mode"
     const val MODID = "survivalmode"
     const val MAVEN_GROUP = "cc.badideas.survivalmode"
-    const val COSMIC_REACH_VERSION = "0.1.11"
+    const val COSMIC_REACH_VERSION = "0.1.15"
     const val LOADER_VERSION = "0.15.7"
 }
 

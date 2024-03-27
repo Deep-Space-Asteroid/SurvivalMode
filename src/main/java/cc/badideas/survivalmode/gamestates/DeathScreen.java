@@ -44,10 +44,10 @@ public class DeathScreen extends GameState {
         firstFrame = true;
     }
 
-    public void update() {
-        super.update();
+    public void update(float deltaTime) {
+        super.update(deltaTime);
         //InGame.getLocalPlayer().updateCamera(InGameAccessor.getRawWorldCamera());
-        IN_GAME.update();
+        IN_GAME.update(deltaTime);
         // TODO: Prevent interacting with the world on the death screen
     }
 
@@ -56,8 +56,8 @@ public class DeathScreen extends GameState {
         IN_GAME.resize(width, height);
     }
 
-    public void render() {
-        super.render();
+    public void render(float deltaTime) {
+        super.render(deltaTime);
         if (!this.firstFrame && Gdx.input.isKeyJustPressed(111)) {
             switchToGameState(IN_GAME);
             InGame.getLocalPlayer().respawn(InGame.world);
@@ -70,7 +70,7 @@ public class DeathScreen extends GameState {
         Gdx.gl.glCullFace(1029);
         Gdx.gl.glEnable(3042);
         Gdx.gl.glBlendFunc(770, 771);
-        IN_GAME.render();
+        IN_GAME.render(deltaTime);
 
         drawUIElements();
         firstFrame = false;

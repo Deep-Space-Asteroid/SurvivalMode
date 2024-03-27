@@ -27,7 +27,7 @@ public abstract class PlayerMixin implements IESMPlayer {
     private double maxOxygen = 100.0;
 
     @Unique
-    private double oxygenLossRate = 1.0;
+    private double oxygenLossRate = 0.01; // Per update (updates are fixed-timestep)
 
     @Unique
     private float deathOffsetStart = 1.8F;
@@ -42,10 +42,10 @@ public abstract class PlayerMixin implements IESMPlayer {
     private GameMode gameMode = GameMode.SURVIVAL;
 
     @Inject(method = "update", at = @At("HEAD"), cancellable = true)
-    private void survivalModeTick(World world, double deltaTime, CallbackInfo info) {
+    private void survivalModeTick(World world, CallbackInfo info) {
         if (isDead) {
             controlledEntity.viewPositionOffset.set(0, deathOffset, 0);
-            deathOffset = Math.max(0.2F, deathOffset - (float) (0.5 * deltaTime));
+            deathOffset = Math.max(0.2F, deathOffset - 0.025F);
 
             if (!(GameState.currentGameState instanceof DeathScreen)) {
                 boolean cursorCaught = Gdx.input.isCursorCatched();
@@ -65,7 +65,7 @@ public abstract class PlayerMixin implements IESMPlayer {
             oxygen = maxOxygen;
         }
 
-        oxygen -= oxygenLossRate * deltaTime;
+        oxygen -= oxygenLossRate;
 
         if (oxygen <= 0.0) {
             isDead = true;
