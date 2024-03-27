@@ -1,6 +1,7 @@
 package cc.badideas.survivalmode.mixin;
 
-import cc.badideas.survivalmode.api.SurvivalModePlayer;
+import cc.badideas.survivalmode.api.GameMode;
+import cc.badideas.survivalmode.api.IESMPlayer;
 import cc.badideas.survivalmode.util.DrawUtil;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -20,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class HotbarMixin {
     @Inject(method = "pickBlock", at = @At("HEAD"), cancellable = true)
     private void pickBlockInject(BlockState blockState, CallbackInfo info) {
-        if (!((SurvivalModePlayer) InGame.getLocalPlayer()).isCreative()) {
+        if (((IESMPlayer) InGame.getLocalPlayer()).getGameMode() != GameMode.CREATIVE) {
             info.cancel();
         }
     }

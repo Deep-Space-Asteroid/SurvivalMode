@@ -1,6 +1,7 @@
 package cc.badideas.survivalmode.mixin;
 
-import cc.badideas.survivalmode.api.SurvivalModePlayer;
+import cc.badideas.survivalmode.api.GameMode;
+import cc.badideas.survivalmode.api.IESMPlayer;
 import cc.badideas.survivalmode.util.DrawUtil;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -37,20 +38,24 @@ public class UIMixin {
             DrawUtil.switchToDrawingShapes();
             uiViewport.apply(false);
 
+            IESMPlayer player = (IESMPlayer) InGame.getLocalPlayer();
             float screenW = uiViewport.getWorldWidth();
             float screenH = uiViewport.getWorldHeight();
             int screenXOffset = Math.round(screenW / 2);
             int screenYOffset = Math.round(screenH / 2);
-            double curOxygen = ((SurvivalModePlayer) InGame.getLocalPlayer()).getOxygen();
-            double maxOxygen = ((SurvivalModePlayer)InGame.getLocalPlayer()).getMaxOxygen();
+            double curOxygen = player.getOxygen();
+            double maxOxygen = player.getMaxOxygen();
             double innerBarWidth = curOxygen / maxOxygen * (oxygenBarMaxWidth - oxygenBarPadding * 2);
-            shapeRenderer.setProjectionMatrix(uiCamera.combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(1.0F, 1.0F, 1.0F, 0.5F);
-            shapeRenderer.rect(-screenXOffset, screenYOffset - oxygenBarHeight, oxygenBarMaxWidth, oxygenBarHeight);
-            shapeRenderer.rect(-screenXOffset + oxygenBarPadding, screenYOffset - oxygenBarHeight + oxygenBarPadding, Math.round(innerBarWidth), oxygenBarHeight - oxygenBarPadding * 2);
 
-            boolean dead = ((SurvivalModePlayer) InGame.getLocalPlayer()).isDead();
+            if (player.getGameMode() == GameMode.SURVIVAL) {
+                shapeRenderer.setProjectionMatrix(uiCamera.combined);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(1.0F, 1.0F, 1.0F, 0.5F);
+                shapeRenderer.rect(-screenXOffset, screenYOffset - oxygenBarHeight, oxygenBarMaxWidth, oxygenBarHeight);
+                shapeRenderer.rect(-screenXOffset + oxygenBarPadding, screenYOffset - oxygenBarHeight + oxygenBarPadding, Math.round(innerBarWidth), oxygenBarHeight - oxygenBarPadding * 2);
+            }
+
+            boolean dead = player.isDead();
             if (dead) {
                 shapeRenderer.setColor(1.0F, 0.0F, 0.0F, 0.5F);
                 shapeRenderer.rect(-screenXOffset, -screenYOffset, screenW, screenH);
@@ -72,8 +77,11 @@ public class UIMixin {
                 FontRenderer.drawText(batch, uiViewport, "You are dead.", 0 - textDim.x / 2, -100);
             }
 
-            batch.setColor(0, 0, 0, 1);
-            FontRenderer.drawText(batch, uiViewport, String.format("%.1f/%.1f", Math.max(0, curOxygen), maxOxygen), -screenXOffset, screenYOffset - oxygenBarHeight);
+            if (player.getGameMode() == GameMode.SURVIVAL) {
+                batch.setColor(0, 0, 0, 1);
+                FontRenderer.drawText(batch, uiViewport, String.format("%.1f/%.1f", Math.max(0, curOxygen), maxOxygen), -screenXOffset, screenYOffset - oxygenBarHeight);
+            }
+
             batch.end();
         }
     }

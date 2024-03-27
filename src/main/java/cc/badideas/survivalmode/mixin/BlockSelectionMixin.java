@@ -1,7 +1,8 @@
 package cc.badideas.survivalmode.mixin;
 
 import cc.badideas.survivalmode.SurvivalMode;
-import cc.badideas.survivalmode.api.SurvivalModePlayer;
+import cc.badideas.survivalmode.api.GameMode;
+import cc.badideas.survivalmode.api.IESMPlayer;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemBlock;
@@ -21,14 +22,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class BlockSelectionMixin {
     @Inject(method = "breakBlock", at = @At("HEAD"), cancellable = true)
     private void breakBlockInject(World world, BlockPosition blockPos, double timeSinceLastInteract, CallbackInfo info) {
-        SurvivalModePlayer smPlayer = (SurvivalModePlayer) InGame.getLocalPlayer();
+        IESMPlayer smPlayer = (IESMPlayer) InGame.getLocalPlayer();
 
         if (smPlayer.isDead()) {
             info.cancel();
             return;
         }
 
-        if (smPlayer.isCreative()) {
+        if (smPlayer.getGameMode() == GameMode.CREATIVE) {
             return;
         }
 
@@ -53,14 +54,14 @@ public class BlockSelectionMixin {
 
     @Inject(method = "placeBlock", at = @At("RETURN"), cancellable = true)
     private void placeBlockInject(World world, BlockState targetBlockState, BlockPosition blockPos, double timeSinceLastInteract, CallbackInfo info) {
-        SurvivalModePlayer smPlayer = (SurvivalModePlayer) InGame.getLocalPlayer();
+        IESMPlayer smPlayer = (IESMPlayer) InGame.getLocalPlayer();
 
         if (smPlayer.isDead()) {
             info.cancel();
             return;
         }
 
-        if (smPlayer.isCreative()) {
+        if (smPlayer.getGameMode() == GameMode.CREATIVE) {
             return;
         }
 

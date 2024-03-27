@@ -1,6 +1,7 @@
 package cc.badideas.survivalmode.mixin;
 
-import cc.badideas.survivalmode.api.SurvivalModePlayer;
+import cc.badideas.survivalmode.api.GameMode;
+import cc.badideas.survivalmode.api.IESMPlayer;
 import cc.badideas.survivalmode.gamestates.DeathScreen;
 import com.badlogic.gdx.Gdx;
 import finalforeach.cosmicreach.gamestates.GameState;
@@ -15,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Player.class)
-public abstract class PlayerMixin implements SurvivalModePlayer {
+public abstract class PlayerMixin implements IESMPlayer {
     @Shadow
     private Entity controlledEntity;
 
@@ -38,7 +39,7 @@ public abstract class PlayerMixin implements SurvivalModePlayer {
     private boolean isDead = false;
 
     @Unique
-    private boolean creative = false;
+    private GameMode gameMode = GameMode.SURVIVAL;
 
     @Inject(method = "update", at = @At("HEAD"), cancellable = true)
     private void survivalModeTick(World world, double deltaTime, CallbackInfo info) {
@@ -56,8 +57,7 @@ public abstract class PlayerMixin implements SurvivalModePlayer {
             return;
         }
 
-        if (creative) {
-            info.cancel();
+        if (gameMode == GameMode.CREATIVE) {
             return;
         }
 
@@ -96,16 +96,11 @@ public abstract class PlayerMixin implements SurvivalModePlayer {
         return isDead;
     }
 
-    public void setCreative() {
-        this.creative = true;
+    public void setGameMode(GameMode gameMode) {
+        this.gameMode = gameMode;
     }
 
-    public void setSurvival() {
-        this.creative = false;
-    }
-
-    @Override
-    public boolean isCreative() {
-        return creative;
+    public GameMode getGameMode() {
+        return gameMode;
     }
 }
