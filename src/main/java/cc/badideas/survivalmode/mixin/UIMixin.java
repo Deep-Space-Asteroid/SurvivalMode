@@ -88,7 +88,7 @@ public class UIMixin {
 
             if (player.getGameMode() == GameMode.SURVIVAL) {
                 batch.setColor(0, 0, 0, 1);
-                FontRenderer.drawText(batch, uiViewport, String.format("%.1f/%.1f", Math.max(0, curOxygen), maxOxygen), -screenXOffset, screenYOffset - barHeight);
+                FontRenderer.drawText(batch, uiViewport, String.format("%.1f/%.1f", Math.max(0, curOxygen), maxOxygen), -screenXOffset, screenYOffset - barHeight * 2 - barPadding);
             }
 
             batch.end();
