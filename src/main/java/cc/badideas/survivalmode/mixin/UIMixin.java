@@ -28,9 +28,9 @@ public class UIMixin {
     @Shadow
     ShapeRenderer shapeRenderer;
 
-    int oxygenBarMaxWidth = 200;
-    int oxygenBarPadding = 5;
-    int oxygenBarHeight = 40;
+    int barMaxWidth = 200;
+    int barPadding = 5;
+    int barHeight = 40;
 
     @Inject(method = "render", at = @At("HEAD"))
     private void renderOxygen(CallbackInfo ci) {
@@ -45,14 +45,23 @@ public class UIMixin {
             int screenYOffset = Math.round(screenH / 2);
             double curOxygen = player.getOxygen();
             double maxOxygen = player.getMaxOxygen();
-            double innerBarWidth = curOxygen / maxOxygen * (oxygenBarMaxWidth - oxygenBarPadding * 2);
+            double innerOxygenBarWidth = curOxygen / maxOxygen * (barMaxWidth - barPadding * 2);
+            int health = player.getHealth();
+            int maxHealth = player.getMaxHealth();
+            double innerHealthBarWidth = (health / (double) maxHealth) * (barMaxWidth - barPadding * 2);
 
             if (player.getGameMode() == GameMode.SURVIVAL) {
                 shapeRenderer.setProjectionMatrix(uiCamera.combined);
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                // Draw oxygen bar
                 shapeRenderer.setColor(1.0F, 1.0F, 1.0F, 0.5F);
-                shapeRenderer.rect(-screenXOffset, screenYOffset - oxygenBarHeight, oxygenBarMaxWidth, oxygenBarHeight);
-                shapeRenderer.rect(-screenXOffset + oxygenBarPadding, screenYOffset - oxygenBarHeight + oxygenBarPadding, Math.round(innerBarWidth), oxygenBarHeight - oxygenBarPadding * 2);
+                shapeRenderer.rect(-screenXOffset, screenYOffset - barHeight * 2 - barPadding, barMaxWidth, barHeight);
+                shapeRenderer.rect(-screenXOffset + barPadding, screenYOffset - barHeight * 2, Math.round(innerOxygenBarWidth), barHeight - barPadding * 2);
+                // Draw health bar
+                shapeRenderer.setColor(1.0F, 0.0F, 0.0F, 0.5F);
+                shapeRenderer.rect(-screenXOffset, screenYOffset - barHeight, barMaxWidth, barHeight);
+                shapeRenderer.setColor(0.0F, 1.0F, 0.0F, 0.5F);
+                shapeRenderer.rect(-screenXOffset + barPadding, screenYOffset - barHeight + barPadding, Math.round(innerHealthBarWidth), barHeight - barPadding * 2);
             }
 
             boolean dead = player.isDead();
@@ -79,7 +88,7 @@ public class UIMixin {
 
             if (player.getGameMode() == GameMode.SURVIVAL) {
                 batch.setColor(0, 0, 0, 1);
-                FontRenderer.drawText(batch, uiViewport, String.format("%.1f/%.1f", Math.max(0, curOxygen), maxOxygen), -screenXOffset, screenYOffset - oxygenBarHeight);
+                FontRenderer.drawText(batch, uiViewport, String.format("%.1f/%.1f", Math.max(0, curOxygen), maxOxygen), -screenXOffset, screenYOffset - barHeight);
             }
 
             batch.end();

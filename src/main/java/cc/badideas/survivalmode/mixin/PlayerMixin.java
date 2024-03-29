@@ -22,27 +22,30 @@ public abstract class PlayerMixin implements IESMPlayer {
 
     @Unique
     private double oxygen;
-
     @Unique
     private double maxOxygen = 100.0;
-
     @Unique
-    private double oxygenLossRate = 0.01; // Per update (updates are fixed-timestep)
-
+    private double oxygenLossRate = 0.01; // Per update (updates were supposed to be fixed-timestep but they aren't, and he removed deltaTime)
+    @Unique
+    private int health;
+    @Unique
+    private int maxHealth = 100;
     @Unique
     private float deathOffsetStart = 1.8F;
-
     @Unique
     private float deathOffset;
-
     @Unique
     private boolean isDead = false;
-
+    @Unique
+    private long lastDamageTimeMS = 0;
     @Unique
     private GameMode gameMode = GameMode.SURVIVAL;
 
     @Inject(method = "update", at = @At("HEAD"), cancellable = true)
     private void survivalModeTick(World world, CallbackInfo info) {
+        // TODO: Get deltaTime back somehow :(
+        // I want to avoid having to use System.getTimeMillis or whatever
+        // since this function is called every frame as of CR 0.1.15
         if (isDead) {
             controlledEntity.viewPositionOffset.set(0, deathOffset, 0);
             deathOffset = Math.max(0.2F, deathOffset - 0.025F);
@@ -68,11 +71,7 @@ public abstract class PlayerMixin implements IESMPlayer {
         oxygen -= oxygenLossRate;
 
         if (oxygen <= 0.0) {
-            isDead = true;
-            deathOffset = deathOffsetStart;
-            boolean cursorCaught = Gdx.input.isCursorCatched();
-            Gdx.input.setCursorCatched(false);
-            GameState.switchToGameState(new DeathScreen(cursorCaught));
+            takeDamage(5);
         }
     }
 
@@ -81,6 +80,15 @@ public abstract class PlayerMixin implements IESMPlayer {
         isDead = false;
         deathOffset = deathOffsetStart;
         oxygen = maxOxygen;
+        health = maxHealth;
+    }
+
+    private void die() {
+        isDead = true;
+        deathOffset = deathOffsetStart;
+        boolean cursorCaught = Gdx.input.isCursorCatched();
+        Gdx.input.setCursorCatched(false);
+        GameState.switchToGameState(new DeathScreen(cursorCaught));
     }
 
     public double getOxygen() {
@@ -90,6 +98,28 @@ public abstract class PlayerMixin implements IESMPlayer {
     public double getMaxOxygen()
     {
         return maxOxygen;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void takeDamage(int damage) {
+        if (System.currentTimeMillis() - lastDamageTimeMS < 1000) {
+            return;
+        }
+
+        lastDamageTimeMS = System.currentTimeMillis();
+        health -= damage;
+
+        if (health <= 0) {
+            health = 0;
+            die();
+        }
     }
 
     public boolean isDead() {
