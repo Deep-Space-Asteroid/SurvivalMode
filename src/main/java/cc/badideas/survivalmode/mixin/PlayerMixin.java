@@ -23,7 +23,7 @@ public abstract class PlayerMixin implements IESMPlayer {
     @Unique
     private double oxygen;
     @Unique
-    private double maxOxygen = 100.0;
+    private double maxOxygen = 20.0;
     @Unique
     private double oxygenLossRate = 0.01; // Per update (updates were supposed to be fixed-timestep but they aren't, and he removed deltaTime)
     @Unique
@@ -120,6 +120,10 @@ public abstract class PlayerMixin implements IESMPlayer {
             health = 0;
             die();
         }
+    }
+
+    public long getTimeSinceLastDamageMS() {
+        return System.currentTimeMillis() - lastDamageTimeMS;
     }
 
     public boolean isDead() {

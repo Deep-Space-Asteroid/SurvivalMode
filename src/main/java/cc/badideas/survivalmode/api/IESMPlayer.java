@@ -9,6 +9,7 @@ public interface IESMPlayer {
     public int getHealth();
     public int getMaxHealth();
     public void takeDamage(int damage);
+    public long getTimeSinceLastDamageMS();
     public boolean isDead();
     public GameMode getGameMode();
 }

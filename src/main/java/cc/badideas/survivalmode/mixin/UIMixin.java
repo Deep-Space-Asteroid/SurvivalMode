@@ -62,6 +62,12 @@ public class UIMixin {
                 shapeRenderer.rect(-screenXOffset, screenYOffset - barHeight, barMaxWidth, barHeight);
                 shapeRenderer.setColor(0.0F, 1.0F, 0.0F, 0.5F);
                 shapeRenderer.rect(-screenXOffset + barPadding, screenYOffset - barHeight + barPadding, Math.round(innerHealthBarWidth), barHeight - barPadding * 2);
+
+                double lastDamage = player.getTimeSinceLastDamageMS();
+                if (lastDamage < 500) {
+                    shapeRenderer.setColor(1.0F, 0.0F, 0.0F, (float) (1 - lastDamage / 500.0));
+                    shapeRenderer.rect(-screenXOffset, screenYOffset - barHeight, barMaxWidth, barHeight);
+                }
             }
 
             boolean dead = player.isDead();
