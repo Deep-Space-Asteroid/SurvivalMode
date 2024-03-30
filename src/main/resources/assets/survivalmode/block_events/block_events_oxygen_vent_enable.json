@@ -1,0 +1,30 @@
+{
+  "parent":"base:block_events_default",
+  "stringId": "survivalmode:block_events_oxygen_vent_enable",
+  "triggers":
+  {
+    "onInteract":
+    [
+      {
+        "actionId": "base:set_block_state_params",
+        "parameters":
+        {
+          "xOff": 0,
+          "yOff": 0,
+          "zOff": 0,
+          "params":
+          {
+            "active":"true"
+          }
+        }
+      },
+      {
+        "actionId": "survivalmode:pressurize",
+        "parameters":
+        {
+          "volume": 8000
+        }
+      }
+    ]
+  }
+}

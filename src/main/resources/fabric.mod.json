@@ -3,7 +3,7 @@
   "id": "${modid}",
   "version": "${version}",
   "name": "${mod_name}",
-  "description": "Fabric mod for Cosmic Reach!",
+  "description": "Early Survival mode for Cosmic Reach!",
   "authors": [
   ],
   "license": "CC0-1.0",
@@ -17,7 +17,8 @@
     "survivalmode.mixins.json"
   ],
   "depends": {
+    "cosmic_reach": ">=${cosmic_reach_version}",
     "fabricloader": ">=${loader_version}",
-    "cosmic_reach": ">=${cosmic_reach_version}"
+    "fluxapi": ">=0.4.1"
   }
 }

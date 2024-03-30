@@ -1,0 +1,17 @@
+{
+    "stringId": "survivalmode:oxygen_vent",
+    "defaultParams": {
+        "active": "false"
+    },
+    "blockStates": {
+        "active=false": {
+            "modelName": "survivalmode:model_oxygen_vent",
+            "blockEventsId": "survivalmode:block_events_oxygen_vent_enable"
+        },
+        "active=true": {
+            "modelName": "survivalmode:model_oxygen_vent_enabled",
+            "blockEventsId": "survivalmode:block_events_oxygen_vent_disable",
+            "catalogHidden": true
+        }
+    }
+}

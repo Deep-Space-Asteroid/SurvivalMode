@@ -4,6 +4,7 @@
   "package": "cc.badideas.survivalmode.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "BlockGameMixin",
     "BlockSelectionMixin",
     "HotbarMixin",
     "PlayerMixin",

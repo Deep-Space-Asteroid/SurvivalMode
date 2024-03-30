@@ -57,6 +57,7 @@ dependencies {
 dependencies {
     // shadow == NO EMBED
     // implementation == EMBED
+    shadow(files("$projectDir/run/mods/FluxAPI-0.4.1-all.jar"))
 }
 
 base.archivesName = modJarName

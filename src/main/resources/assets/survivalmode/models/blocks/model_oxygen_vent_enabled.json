@@ -1,0 +1,12 @@
+{
+  "parent": "cube",
+
+  "textures":
+  {
+    "all":
+    {
+      "fileName": "survivalmode:oxygen_vent_enabled.png"
+    }
+  }
+
+}
